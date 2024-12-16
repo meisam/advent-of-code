@@ -1,4 +1,4 @@
-input = "/home/meisam/workspace/advent-of-code/aoc-2024/day01.input"
+input = "day01.input"
 
 from collections import Counter
 def main():

@@ -7,7 +7,7 @@ from itertools import pairwise
 from typing import Generator
 import operator
 
-_INPUT_FILE = "/home/meisam/workspace/advent-of-code/aoc-2024/day02.input"
+_INPUT_FILE = "day02.input"
 
 
 def skipping_iter(values: list[int], skip_index: int) -> Generator[int, int, int]:

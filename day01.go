@@ -12,7 +12,7 @@ import (
 
 
 func main() {
-	file, err := os.Open("/home/meisam/workspace/advent-of-code/aoc-2024/day01.input");
+	file, err := os.Open("day01.input");
 	if err != nil {
 		fmt.Println("Error opening file: ", err)
 		return
