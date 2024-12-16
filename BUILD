@@ -3,6 +3,30 @@ load("@rules_python//python:defs.bzl", "py_binary")
 load("@bazel_skylib//rules:build_test.bzl", "build_test")  # needed for rust
 load("@rules_rust//rust:defs.bzl", "rust_binary")
 
+# DAY 02
+go_binary(
+    name = "day02go",
+    srcs = ["day02.go"],
+    data = [
+        "day02.input",
+        "day02.input.head",
+        "day02.input.test",
+    ]
+)
+
+py_binary(
+    name = "day02py",
+    srcs = ["day02py.py"],
+    deps = [
+    ],
+)
+
+# rust_binary(
+#     name = "day02rust",
+#     srcs = ["day02.rs"],
+# )
+
+
 # DAY 01
 go_binary(
     name = "day01go",
