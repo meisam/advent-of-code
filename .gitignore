@@ -1,1 +1,6 @@
-/blaze-*
+bazel-aoc-2024
+bazel-bin
+bazel-out
+bazel-testlogs
+day*.input.head
+day*.input.test
