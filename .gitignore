@@ -4,3 +4,4 @@ bazel-out
 bazel-testlogs
 day*.input.head
 day*.input.test
+.metals
