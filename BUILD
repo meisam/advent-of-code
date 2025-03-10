@@ -53,8 +53,8 @@ go_test(
         "day03.input",
     ],
     deps = [
-        ":day03go"
-    ]
+        ":day03go",
+    ],
 )
 
 py_binary(
@@ -122,7 +122,7 @@ rust_binary(
 scala_library(
     name = "parser_scala",
     srcs = ["Parser.scala"],
-    deps = []
+    deps = [],
 )
 
 scala_library(
@@ -130,5 +130,5 @@ scala_library(
     srcs = ["TextParser.scala"],
     deps = [
         ":parser_scala",
-    ]
+    ],
 )
