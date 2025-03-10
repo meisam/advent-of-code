@@ -6,3 +6,4 @@ day*.input.head
 day*.input.test
 .metals
 .vscode
+.bazelrc
