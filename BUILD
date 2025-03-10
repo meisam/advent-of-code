@@ -124,3 +124,11 @@ scala_library(
     srcs = ["Parser.scala"],
     deps = []
 )
+
+scala_library(
+    name = "text_parser_scala",
+    srcs = ["TextParser.scala"],
+    deps = [
+        ":parser_scala",
+    ]
+)
