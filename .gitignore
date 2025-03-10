@@ -5,3 +5,4 @@ bazel-testlogs
 day*.input.head
 day*.input.test
 .metals
+.vscode
