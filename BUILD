@@ -20,7 +20,9 @@ load(
 scala_library(
     name = "day03scala",
     srcs = ["Day03.scala"],
-    deps = [],
+    deps = [
+        ":parser_scala",
+    ],
 )
 
 scala_binary(
@@ -114,4 +116,11 @@ py_binary(
 rust_binary(
     name = "day01rust",
     srcs = ["day01.rs"],
+)
+
+# Libraries
+scala_library(
+    name = "parser_scala",
+    srcs = ["Parser.scala"],
+    deps = []
 )
