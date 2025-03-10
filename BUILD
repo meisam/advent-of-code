@@ -10,8 +10,26 @@ load(
     "go_library",
     "go_test",
 )
+load(
+    "@rules_scala//scala:scala.bzl",
+    "scala_binary",
+    "scala_library",
+)
 
 # DAY 03
+scala_library(
+    name = "day03scala",
+    srcs = ["Day03.scala"],
+    deps = [],
+)
+
+scala_binary(
+    name = "day03scala_main",
+    srcs = ["Day03Main.scala"],
+    main_class = "main",
+    deps = [":day03scala"],
+)
+
 go_library(
     name = "day03go",
     srcs = ["day03.go"],
@@ -65,7 +83,7 @@ go_binary(
         "day02.input",
         "day02.input.head",
         "day02.input.test",
-    ]
+    ],
 )
 
 py_binary(
@@ -79,7 +97,6 @@ py_binary(
 #     name = "day02rust",
 #     srcs = ["day02.rs"],
 # )
-
 
 # DAY 01
 go_binary(
