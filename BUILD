@@ -135,6 +135,15 @@ scala_library(
     deps = [],
 )
 
+
+scala_library(
+    name = "file_parser_scala",
+    srcs = ["FileParser.scala"],
+    deps = [
+        ":parser_scala",
+    ],
+)
+
 scala_library(
     name = "string_parser_scala",
     srcs = ["StringParser.scala"],

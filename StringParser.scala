@@ -1,6 +1,6 @@
 package parser
 
-object StringParsers extends Parsers[StringParsers.Parser]:
+object StringParsers extends Parsers[StringParsers.Parser, ParseError]:
   /*opaque*/
   type Parser[+A] = Location => Result[A]
   enum Result[+A]:
@@ -94,3 +94,29 @@ object StringParsers extends Parsers[StringParsers.Parser]:
       loc => p(loc).mapError(_.push(loc, message))
   end extension
 end StringParsers
+
+
+case class Location(input: String, offset: Int = 0):
+  lazy val line = 1 + input.slice(0, offset + 1).count(_ == '\n')
+
+  lazy val col = input.slice(0, offset + 1).lastIndexOf('\n') match
+    case -1        => offset + 1
+    case lineStart => offset - lineStart
+
+  def advanceBy(n: Int): Location =
+    copy(offset = offset + n)
+
+  def toError(msg: String): ParseError =
+    ParseError(List((this, msg)))
+
+  def remaining: String =
+    input.substring(offset)
+
+  def slice(n: Int): String =
+    input.substring(offset, offset + n)
+
+case class ParseError(stack: List[(Location, String)] = Nil):
+  def push(loc: Location, msg: String): ParseError =
+    ParseError((loc, msg) :: stack)
+  def label(s: String): ParseError =
+    ParseError()

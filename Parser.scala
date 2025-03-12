@@ -3,7 +3,7 @@ package parser
 import scala.util.matching.Regex
 import java.util.regex.Pattern
 
-trait Parsers[Parser[+_]]:
+trait Parsers[Parser[+_], ParseError]:
   def string(s: String): Parser[String]
 
   def succeed[A](a: A): Parser[A]
@@ -153,28 +153,3 @@ trait Parsers[Parser[+_]]:
         a <- p
         tail <- (op ** p).many
       yield tail.foldLeft(a)(combine)
-
-case class Location(input: String, offset: Int = 0):
-  lazy val line = 1 + input.slice(0, offset + 1).count(_ == '\n')
-
-  lazy val col = input.slice(0, offset + 1).lastIndexOf('\n') match
-    case -1        => offset + 1
-    case lineStart => offset - lineStart
-
-  def advanceBy(n: Int): Location =
-    copy(offset = offset + n)
-
-  def toError(msg: String): ParseError =
-    ParseError(List((this, msg)))
-
-  def remaining: String =
-    input.substring(offset)
-
-  def slice(n: Int): String =
-    input.substring(offset, offset + n)
-
-case class ParseError(stack: List[(Location, String)] = Nil):
-  def push(loc: Location, msg: String): ParseError =
-    ParseError((loc, msg) :: stack)
-  def label(s: String): ParseError =
-    ParseError()
