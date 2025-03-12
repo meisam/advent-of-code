@@ -1,7 +1,8 @@
 package parser
 
 object StringParsers extends Parsers[StringParsers.Parser]:
-  /*opaque*/type Parser[+A] = Location => Result[A]
+  /*opaque*/
+  type Parser[+A] = Location => Result[A]
   enum Result[+A]:
     case Success(get: A, length: Int)
     case Failure(get: ParseError, isCommited: Boolean) extends Result[Nothing]
