@@ -1,13 +1,13 @@
 package parser
 
-object StringParsers extends Parsers[StringParsers.Parser, ParseError]:
+object StringParsers extends Parsers[StringParsers.Parser, StackTrace]:
   /*opaque*/
   type Parser[+A] = Location => Result[A]
   enum Result[+A]:
     case Success(get: A, length: Int)
-    case Failure(get: ParseError, isCommited: Boolean) extends Result[Nothing]
+    case Failure(get: StackTrace, isCommited: Boolean) extends Result[Nothing]
 
-    def extract: ParseError | A =
+    def extract: StackTrace | A =
       this match
         case Failure(e, _) => e
         case Success(a, _) => a
@@ -22,7 +22,7 @@ object StringParsers extends Parsers[StringParsers.Parser, ParseError]:
         case Failure(get, c) => Result.Failure(get, c || isCommited)
         case _               => this
 
-    def mapError(f: ParseError => ParseError): Result[A] =
+    def mapError(f: StackTrace => StackTrace): Result[A] =
       this match
         case Failure(e, c) => Failure(f(e), c)
         case _             => this
@@ -81,7 +81,7 @@ object StringParsers extends Parsers[StringParsers.Parser, ParseError]:
           case Result.Failure(_, _) => p2(loc)
           case success              => success
 
-    def run(input: String): ParseError | A =
+    def run(input: String): StackTrace | A =
       p(Location(input, 0)).extract
 
     def slice: Parser[String] =
@@ -106,8 +106,8 @@ case class Location(input: String, offset: Int = 0):
   def advanceBy(n: Int): Location =
     copy(offset = offset + n)
 
-  def toError(msg: String): ParseError =
-    ParseError(List((this, msg)))
+  def toError(msg: String): StackTrace =
+    StackTrace(List((this, msg)))
 
   def remaining: String =
     input.substring(offset)
@@ -115,8 +115,8 @@ case class Location(input: String, offset: Int = 0):
   def slice(n: Int): String =
     input.substring(offset, offset + n)
 
-case class ParseError(stack: List[(Location, String)] = Nil):
-  def push(loc: Location, msg: String): ParseError =
-    ParseError((loc, msg) :: stack)
-  def label(s: String): ParseError =
-    ParseError()
+case class StackTrace(stack: List[(Location, String)] = Nil):
+  def push(loc: Location, msg: String): StackTrace =
+    StackTrace((loc, msg) :: stack)
+  def label(s: String): StackTrace =
+    StackTrace()

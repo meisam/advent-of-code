@@ -20,6 +20,6 @@ def parse(input: String): Error | Int =
   val optSpaces = char(' ').many
   val lineParser: Parser[(Int, Int)] = ((optSpaces *> int) <* spaces) ** int <* (optSpaces ** char('\n'))
   lineParser.many.run(input) match
-    case error @ parser.ParseError(stack) =>
-      stack.mkString("Error: <", "\n", ">")
     case numberPairs: List[(Int, Int)] => process(numberPairs)
+    case error @ parser.StackTrace(stack) =>
+      stack.mkString("Error: <", "\n", ">")
