@@ -22,7 +22,7 @@ scala_library(
     srcs = ["Day03.scala"],
     deps = [
         ":parser_scala",
-        ":text_parser_scala",
+        ":string_parser_scala",
     ],
 )
 
@@ -136,8 +136,8 @@ scala_library(
 )
 
 scala_library(
-    name = "text_parser_scala",
-    srcs = ["TextParser.scala"],
+    name = "string_parser_scala",
+    srcs = ["StringParser.scala"],
     deps = [
         ":parser_scala",
     ],

@@ -1,9 +1,7 @@
 package parser
 
-object TextParsers extends Parsers[TextParsers.Parser]:
-
-  /*opaque*/
-  type Parser[+A] = Location => Result[A]
+object StringParsers extends Parsers[StringParsers.Parser]:
+  /*opaque*/type Parser[+A] = Location => Result[A]
   enum Result[+A]:
     case Success(get: A, length: Int)
     case Failure(get: ParseError, isCommited: Boolean) extends Result[Nothing]
@@ -94,4 +92,4 @@ object TextParsers extends Parsers[TextParsers.Parser]:
     def scope(message: String): Parser[A] =
       loc => p(loc).mapError(_.push(loc, message))
   end extension
-end TextParsers
+end StringParsers
