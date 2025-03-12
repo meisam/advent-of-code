@@ -31,16 +31,35 @@ trait Parsers[Parser[+_]]:
     string("\"") *> thru("\"").map(_.dropRight(1))
 
   def escapedQuotod: Parser[String] =
-    quoted.label("string literal").token
+    quoted.label("string literal")
 
   def doubleString: Parser[String] =
     regex("([+-]?[0-9]*\\.)?[0-9]+([eE][+-]?[0-]+)?".r)
       .label("doubleString")
-      .token
 
   def double: Parser[Double] =
     doubleString.map(_.toDouble).label("double literal")
 
+  def decIntString: Parser[String] =
+    regex("[+-]?[0-9]+".r)
+      .label("decIntString")
+
+  def hexIntString: Parser[String] =
+    regex("[+-]?0[xX][0-9a-fA-F]+".r)
+      .label("hexIntString")
+
+  def octIntString: Parser[String] =
+    regex("[+-]?0[oO][0-7]+".r)
+      .label("octIntString")
+
+  def binIntString: Parser[String] =
+    regex("[+-]?0[bB][01]+".r)
+      .label("binIntString")
+
+  def int: Parser[Int] =
+    (decIntString or hexIntString or octIntString or binIntString)
+      .map(_.toInt)
+    
   def eof: Parser[String] =
     regex("\\z".r).label("Unexpected trailing characters")
 

@@ -22,13 +22,17 @@ scala_library(
     srcs = ["Day03.scala"],
     deps = [
         ":parser_scala",
+        ":text_parser_scala",
     ],
 )
 
 scala_binary(
     name = "day03scala_main",
     srcs = ["Day03Main.scala"],
-    main_class = "main",
+    data = [
+        "day01.input",
+    ],
+    main_class = "day03.main",
     deps = [":day03scala"],
 )
 
@@ -104,11 +108,17 @@ py_binary(
 go_binary(
     name = "day01go",
     srcs = ["day01.go"],
+    data = [
+        "day01.input",
+    ],
 )
 
 py_binary(
     name = "day01py",
     srcs = ["day01py.py"],
+    data = [
+        "day01.input",
+    ],
     deps = [
     ],
 )
