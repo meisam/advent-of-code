@@ -17,25 +17,6 @@ load(
 )
 
 # DAY 03
-scala_library(
-    name = "day03scala",
-    srcs = ["Day03.scala"],
-    deps = [
-        ":parser_scala",
-        ":string_parser_scala",
-    ],
-)
-
-scala_binary(
-    name = "day03scala_main",
-    srcs = ["Day03Main.scala"],
-    data = [
-        "day01.input",
-    ],
-    main_class = "day03.main",
-    deps = [":day03scala"],
-)
-
 go_library(
     name = "day03go",
     srcs = ["day03.go"],
@@ -105,6 +86,25 @@ py_binary(
 # )
 
 # DAY 01
+scala_library(
+    name = "day01scala",
+    srcs = ["Day01.scala"],
+    deps = [
+        ":parser_scala",
+        ":string_parser_scala",
+    ],
+)
+
+scala_binary(
+    name = "day01scala_main",
+    srcs = ["Day01Main.scala"],
+    data = [
+        "day01.input",
+    ],
+    main_class = "day01.main",
+    deps = [":day01scala"],
+)
+
 go_binary(
     name = "day01go",
     srcs = ["day01.go"],

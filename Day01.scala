@@ -1,4 +1,4 @@
-package day03
+package day01
 
 import parser.StringParsers
 import StringParsers.*
