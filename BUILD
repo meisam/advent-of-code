@@ -92,6 +92,8 @@ scala_library(
     deps = [
         ":parser_scala",
         ":string_parser_scala",
+        ":location_scala",
+        ":stack_trace_scala",
     ],
 )
 
@@ -135,6 +137,10 @@ scala_library(
     deps = [],
 )
 
+scala_library(
+    name = "location_scala",
+    srcs = ["Location.scala"],
+)
 
 scala_library(
     name = "file_parser_scala",
@@ -145,9 +151,21 @@ scala_library(
 )
 
 scala_library(
+    name = "stack_trace_scala",
+    srcs = ["StackTrace.scala"],
+    deps = [
+        ":location_scala",
+    ]
+)
+
+# string parser
+scala_library(
     name = "string_parser_scala",
     srcs = ["StringParser.scala"],
     deps = [
         ":parser_scala",
+        ":stack_trace_scala",
+        ":location_scala",
     ],
 )
+

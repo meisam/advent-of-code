@@ -1,13 +1,19 @@
 package parser
 
-object StringParsers extends Parsers[StringParsers.Parser, StackTrace]:
+type StringParseError = StackTrace[Location]
+
+extension (loc: Location)
+  def toError(msg: String): StringParseError =
+    StackTrace(List((loc, msg)))
+
+object StringParsers extends Parsers[StringParsers.Parser, StringParseError]:
   /*opaque*/
   type Parser[+A] = Location => Result[A]
   enum Result[+A]:
     case Success(get: A, length: Int)
-    case Failure(get: StackTrace, isCommited: Boolean) extends Result[Nothing]
+    case Failure(get: StringParseError, isCommited: Boolean) extends Result[Nothing]
 
-    def extract: StackTrace | A =
+    def extract: StringParseError | A =
       this match
         case Failure(e, _) => e
         case Success(a, _) => a
@@ -22,7 +28,7 @@ object StringParsers extends Parsers[StringParsers.Parser, StackTrace]:
         case Failure(get, c) => Result.Failure(get, c || isCommited)
         case _               => this
 
-    def mapError(f: StackTrace => StackTrace): Result[A] =
+    def mapError(f: StringParseError => StringParseError): Result[A] =
       this match
         case Failure(e, c) => Failure(f(e), c)
         case _             => this
@@ -45,7 +51,7 @@ object StringParsers extends Parsers[StringParsers.Parser, StackTrace]:
     recurse(0)
 
   def string(s: String): Parser[String] =
-    loc =>
+    (loc: Location) =>
       firstNonmatchingIndex(loc.input, s, loc.offset) match
         case None => Result.Success(s, s.length)
         case Some(i) =>
@@ -81,7 +87,7 @@ object StringParsers extends Parsers[StringParsers.Parser, StackTrace]:
           case Result.Failure(_, _) => p2(loc)
           case success              => success
 
-    def run(input: String): StackTrace | A =
+    def run(input: String): StringParseError | A =
       p(Location(input, 0)).extract
 
     def slice: Parser[String] =
@@ -94,28 +100,3 @@ object StringParsers extends Parsers[StringParsers.Parser, StackTrace]:
       loc => p(loc).mapError(_.push(loc, message))
   end extension
 end StringParsers
-
-case class Location(input: String, offset: Int = 0):
-  lazy val line = 1 + input.slice(0, offset + 1).count(_ == '\n')
-
-  lazy val col = input.slice(0, offset + 1).lastIndexOf('\n') match
-    case -1        => offset + 1
-    case lineStart => offset - lineStart
-
-  def advanceBy(n: Int): Location =
-    copy(offset = offset + n)
-
-  def toError(msg: String): StackTrace =
-    StackTrace(List((this, msg)))
-
-  def remaining: String =
-    input.substring(offset)
-
-  def slice(n: Int): String =
-    input.substring(offset, offset + n)
-
-case class StackTrace(stack: List[(Location, String)] = Nil):
-  def push(loc: Location, msg: String): StackTrace =
-    StackTrace((loc, msg) :: stack)
-  def label(s: String): StackTrace =
-    StackTrace()
