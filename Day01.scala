@@ -18,7 +18,8 @@ def parse(input: String): Error | Int =
   // integer, followed by (ignored) space, followed by another integer
   val spaces = StringParsers.char(' ').many1
   val optSpaces = char(' ').many
-  val lineParser: Parser[(Int, Int)] = ((optSpaces *> int) <* spaces) ** int <* (optSpaces ** char('\n'))
+  val lineParser: Parser[(Int, Int)] =
+    ((optSpaces *> int) <* spaces) ** int <* (optSpaces ** char('\n'))
   lineParser.many.run(input) match
     case numberPairs: List[(Int, Int)] => process(numberPairs)
     case error @ parser.StackTrace(stack) =>

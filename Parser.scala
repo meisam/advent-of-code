@@ -59,7 +59,7 @@ trait Parsers[Parser[+_], ParseError]:
   def int: Parser[Int] =
     (decIntString or hexIntString or octIntString or binIntString)
       .map(_.toInt)
-    
+
   def eof: Parser[String] =
     regex("\\z".r).label("Unexpected trailing characters")
 

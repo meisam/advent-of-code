@@ -95,7 +95,6 @@ object StringParsers extends Parsers[StringParsers.Parser, StackTrace]:
   end extension
 end StringParsers
 
-
 case class Location(input: String, offset: Int = 0):
   lazy val line = 1 + input.slice(0, offset + 1).count(_ == '\n')
 
