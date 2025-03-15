@@ -107,6 +107,17 @@ scala_binary(
     deps = [":day01scala"],
 )
 
+scala_test(
+    name = "day01scala_test",
+    size = "small",
+    srcs = ["Day01Test.scala"],
+    data = [
+        "day01.input",
+    ],
+    deps = [
+        ":day01scala",
+    ],
+)
 go_binary(
     name = "day01go",
     srcs = ["day01.go"],
@@ -140,14 +151,6 @@ scala_library(
 scala_library(
     name = "location_scala",
     srcs = ["Location.scala"],
-)
-
-scala_library(
-    name = "file_parser_scala",
-    srcs = ["FileParser.scala"],
-    deps = [
-        ":parser_scala",
-    ],
 )
 
 scala_library(

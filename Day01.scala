@@ -19,8 +19,9 @@ def parse(input: String): Error | Int =
   val spaces = StringParsers.char(' ').many1
   val optSpaces = char(' ').many
   val lineParser: Parser[(Int, Int)] =
-    ((optSpaces *> int) <* spaces) ** int <* (optSpaces ** char('\n'))
-  lineParser.many.run(input) match
+    ((optSpaces *> int) <* spaces) ** int <* (optSpaces ** opt(char('\n')))
+  val x: parser.StringParsers.Parser[List[(Int, Int)]] = lineParser.many
+  x.run(input) match
     case numberPairs: List[(Int, Int)] => process(numberPairs)
     case error @ parser.StackTrace(stack) =>
       stack.mkString("Error: <", "\n", ">")
