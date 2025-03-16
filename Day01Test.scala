@@ -45,3 +45,22 @@ class Test extends AnyFlatSpec with Matchers:
 
   "Part1: Jibrish input" should "return 0" in:
     day01.parse("jibrish".trim) must be(0)
+
+  "Part2: Parse one line" should "pass" in:
+    day01.similarityScore("5 7") must be(0)
+    day01.similarityScore("5 5") must be(5)
+    day01.similarityScore("7 7") must be(7)
+    day01.similarityScore("""
+    7 5
+    5 7
+    """.trim) must be(12)
+
+  "Part2: Example in the problem description" should "pass" in:
+    day01.similarityScore("""
+    3   4
+    4   3
+    2   5
+    1   3
+    3   9
+    3   3
+    """.trim) must be(31)
