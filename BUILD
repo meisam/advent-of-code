@@ -91,10 +91,10 @@ scala_library(
     name = "day01scala",
     srcs = ["Day01.scala"],
     deps = [
-        ":parser_scala",
-        ":string_parser_scala",
         ":location_scala",
+        ":parser_scala",
         ":stack_trace_scala",
+        ":string_parser_scala",
     ],
 )
 
@@ -115,6 +115,7 @@ scala_test(
         ":day01scala",
     ],
 )
+
 go_binary(
     name = "day01go",
     srcs = ["day01.go"],
@@ -155,7 +156,7 @@ scala_library(
     srcs = ["StackTrace.scala"],
     deps = [
         ":location_scala",
-    ]
+    ],
 )
 
 # string parser
@@ -163,9 +164,8 @@ scala_library(
     name = "string_parser_scala",
     srcs = ["StringParser.scala"],
     deps = [
+        ":location_scala",
         ":parser_scala",
         ":stack_trace_scala",
-        ":location_scala",
     ],
 )
-

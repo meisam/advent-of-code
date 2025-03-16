@@ -36,6 +36,7 @@ scala_config = use_extension(
     "@rules_scala//scala/extensions:config.bzl",
     "scala_config",
 )
+
 # STL version as of 2025-03-09
 scala_config.settings(scala_version = "3.3.5")
 scala_deps = use_extension(
@@ -49,7 +50,7 @@ scala_deps.toolchains(
     specs2 = True,
 )
 
- # Make it possible to run bazel run @rules_go//go -- mod tidy -v
+# Make it possible to run bazel run @rules_go//go -- mod tidy -v
 # Based on:
 # - https://github.com/bazel-contrib/rules_go/blob/master/docs/go/core/bzlmod.md
 go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk")
