@@ -113,6 +113,8 @@ scala_test(
     srcs = ["Day01Test.scala"],
     deps = [
         ":day01scala",
+        "@maven//:org_scalacheck_scalacheck_3",
+        "@maven//:org_scalatestplus_scalacheck_1_18_3",
     ],
 )
 
