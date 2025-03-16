@@ -11,7 +11,8 @@ object StringParsers extends Parsers[StringParsers.Parser, StringParseError]:
   type Parser[+A] = Location => Result[A]
   enum Result[+A]:
     case Success(get: A, length: Int)
-    case Failure(get: StringParseError, isCommited: Boolean) extends Result[Nothing]
+    case Failure(get: StringParseError, isCommited: Boolean)
+        extends Result[Nothing]
 
     def extract: StringParseError | A =
       this match
