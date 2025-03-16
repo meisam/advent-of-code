@@ -43,8 +43,13 @@ scala_deps = use_extension(
     "scala_deps",
 )
 
+scala_deps.toolchains(
+    junit = True,
+    scalatest = True,
+    specs2 = True,
+)
 
-# Make it possible to run bazel run @rules_go//go -- mod tidy -v
+ # Make it possible to run bazel run @rules_go//go -- mod tidy -v
 # Based on:
 # - https://github.com/bazel-contrib/rules_go/blob/master/docs/go/core/bzlmod.md
 go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk")

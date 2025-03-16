@@ -14,6 +14,7 @@ load(
     "@rules_scala//scala:scala.bzl",
     "scala_binary",
     "scala_library",
+    "scala_test",
 )
 
 # DAY 03
@@ -109,11 +110,7 @@ scala_binary(
 
 scala_test(
     name = "day01scala_test",
-    size = "small",
     srcs = ["Day01Test.scala"],
-    data = [
-        "day01.input",
-    ],
     deps = [
         ":day01scala",
     ],
