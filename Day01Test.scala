@@ -1,7 +1,6 @@
 package day01
 
 import org.scalatest.flatspec.AnyFlatSpec
-import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
