@@ -1,5 +1,4 @@
 bazel-*
-bazel-*
 .metals
 .vscode
 .bazelrc
