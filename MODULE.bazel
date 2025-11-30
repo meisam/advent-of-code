@@ -2,62 +2,75 @@
 Solutions to Advent of Code 2024
 """
 bazel_dep(
-    name = "rules_go",
-    version = "0.50.1",
+    name = "rules_cc",
+    version = "0.2.14",
 )
-
 bazel_dep(
-    name = "rules_rust",
-    version = "0.54.1",
+    name = "rules_go",
+    version = "0.59.0",
 )
-
+bazel_dep(
+    name = "rules_java",
+    version = "9.0.3",
+)
+bazel_dep(
+    name = "rules_jvm_external",
+    version = "6.9",
+)
 bazel_dep(
     name = "rules_kotlin",
-    version = "2.0.0",
+    version = "2.2.0",
 )
-
 bazel_dep(
     name = "rules_python",
-    version = "1.0.0",
+    version = "1.7.0",
 )
-
+bazel_dep(
+    name = "rules_rust",
+    version = "0.57.0",
+)
 bazel_dep(
     name = "rules_scala",
-    version = "7.0.0",
+    version = "7.1.5",
 )
 
-local_path_override(
-    module_name = "rules_scala",
-    path = "/home/meisam/workspace/rules_scala",
+# local_path_override(
+#     module_name = "rules_scala",
+#     path = "/home/meisam/workspace/rules_scala",
+# )
+register_toolchains(
+    "@rules_scala//protoc:all",
 )
-register_toolchains("@rules_scala//protoc:all")
 
 scala_config = use_extension(
     "@rules_scala//scala/extensions:config.bzl",
     "scala_config",
 )
 
-# STL version as of 2025-03-09
-scala_config.settings(scala_version = "3.3.5")
+# STL version as of 2025-11-30
+scala_config.settings(scala_version = "3.3.7")
+
 scala_deps = use_extension(
     "@rules_scala//scala/extensions:deps.bzl",
     "scala_deps",
 )
+scala_deps.scala()
+scala_deps.scala_proto(default_gen_opts = ["grpc", "scala3_sources"])
 
-scala_deps.toolchains(
-    junit = True,
-    scalatest = True,
-    specs2 = True,
+dev_deps = use_extension(
+    "@rules_scala//scala/extensions:deps.bzl",
+    "scala_deps",
+    dev_dependency = True,
 )
+
+# dev_deps.scalafmt(default_config = ".scalafmt.conf")
+dev_deps.scalatest()
 
 # Make it possible to run bazel run @rules_go//go -- mod tidy -v
 # Based on:
 # - https://github.com/bazel-contrib/rules_go/blob/master/docs/go/core/bzlmod.md
 go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk")
-go_sdk.download(version = "1.24.1")
-
-bazel_dep(name = "rules_java", version = "8.11.0")
-bazel_dep(name = "rules_jvm_external", version = "6.7")
+go_sdk.download(version = "1.25.4")
 
 # Add maven_install to define the coordinates:
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
