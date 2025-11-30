@@ -1,5 +1,5 @@
 import unittest
-from day03py import extract_nums,mul_result
+from year2024.day03py import extract_nums,mul_result
 
 class TestDay02(unittest.TestCase):
 
@@ -27,7 +27,7 @@ class TestDay02(unittest.TestCase):
         ), 161)
 
     def test_part1_answer(self):
-        with open('day03.input', 'r', encoding='utf-8') as f:
+        with open('year2024/day03.input', 'r', encoding='utf-8') as f:
             self.assertEqual(mul_result(f.read()), 155955228)  # <-- Answer to part 1
 
 if __name__ == '__main__':
