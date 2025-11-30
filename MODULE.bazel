@@ -1,6 +1,14 @@
 """
 Solutions to Advent of Code 2024
 """
+module(
+    name = "advent-of-code",
+    version = "0.1.0",
+    compatibility_level = 0,  # MUST be incremented when a major incompatible change is made
+    bazel_compatibility = [
+        ">=8.0.0",
+    ],
+)
 bazel_dep(
     name = "rules_cc",
     version = "0.2.14",
@@ -34,45 +42,13 @@ bazel_dep(
     version = "7.1.5",
 )
 
-# local_path_override(
-#     module_name = "rules_scala",
-#     path = "/home/meisam/workspace/rules_scala",
-# )
-register_toolchains(
-    "@rules_scala//protoc:all",
-)
-
-scala_config = use_extension(
-    "@rules_scala//scala/extensions:config.bzl",
-    "scala_config",
-)
-
-# STL version as of 2025-11-30
-scala_config.settings(scala_version = "3.3.7")
-
-scala_deps = use_extension(
-    "@rules_scala//scala/extensions:deps.bzl",
-    "scala_deps",
-)
-scala_deps.scala()
-scala_deps.scala_proto(default_gen_opts = ["grpc", "scala3_sources"])
-
-dev_deps = use_extension(
-    "@rules_scala//scala/extensions:deps.bzl",
-    "scala_deps",
-    dev_dependency = True,
-)
-
-# dev_deps.scalafmt(default_config = ".scalafmt.conf")
-dev_deps.scalatest()
-
 # Make it possible to run bazel run @rules_go//go -- mod tidy -v
 # Based on:
 # - https://github.com/bazel-contrib/rules_go/blob/master/docs/go/core/bzlmod.md
 go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk")
 go_sdk.download(version = "1.25.4")
 
-# Add maven_install to define the coordinates:
+# Java toolchains (required for Scala)
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(
     artifacts = [
@@ -85,3 +61,30 @@ maven.install(
     ],
 )
 use_repo(maven, "maven")  # This line is important to make the dependency available.
+
+# Scala toolchains
+register_toolchains(
+    "@rules_scala//protoc:all",
+)
+scala_config = use_extension(
+    "@rules_scala//scala/extensions:config.bzl",
+    "scala_config",
+)
+scala_config.settings(
+    scala_version = "3.3.7",  # STL version as of 2025-11-30
+)
+scala_deps = use_extension(
+    "@rules_scala//scala/extensions:deps.bzl",
+    "scala_deps",
+)
+scala_deps.scala()
+scala_deps.scala_proto(
+    default_gen_opts = ["grpc", "scala3_sources"],
+)
+dev_deps = use_extension(
+    "@rules_scala//scala/extensions:deps.bzl",
+    "scala_deps",
+    dev_dependency = True,
+)
+dev_deps.scalafmt(default_config = ".scalafmt.conf")
+dev_deps.scalatest()
