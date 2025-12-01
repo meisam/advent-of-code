@@ -6,6 +6,8 @@ load(
 load(
     "@rules_rust//rust:defs.bzl",
     "rust_binary",
+    "rust_library",
+    "rust_test",
 )
 load(
     "@rules_go//go:def.bzl",
@@ -173,6 +175,24 @@ py_binary(
 )
 
 rust_binary(
+    name = "day01rust_main",
+    srcs = ["day01_main.rs"],
+    deps = [
+        ":day01rust",
+    ],
+)
+
+rust_library(
     name = "day01rust",
     srcs = ["day01.rs"],
+    crate_name = "year2024_day01",
+)
+
+rust_test(
+    name = "day01rust_test",
+    srcs = ["day01_test.rs"],
+    deps = [
+        ":day01rust",
+        "@crates//:proptest",
+    ],
 )
