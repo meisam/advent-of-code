@@ -16,7 +16,7 @@ scala_library(
 scala_binary(
     name = "day01scala_main",
     srcs = ["Day01Main.scala"],
-    main_class = "day01.main",
+    main_class = "year2025.day01.main",
     deps = [
         ":day01scala",
     ],
