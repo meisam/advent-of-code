@@ -1,4 +1,5 @@
 bazel-*
+day*.input*
 .metals
 .vscode
 .bazelrc
