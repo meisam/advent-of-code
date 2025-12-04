@@ -4,6 +4,7 @@ package day04
 enum WallPart:
   case Roll, Empty
 
+opaque type Coordinates = (Int, Int)
 opaque type Wall = Array[Array[WallPart]]
 
 extension (self: Wall)
@@ -13,7 +14,7 @@ extension (self: Wall)
     if j < 0 || j >= self(i).length then return WallPart.Empty
     self(i)(j)
 
-  def neighborsCoordinatesOf(i: Int, j: Int): Seq[(Int, Int)] =
+  def neighborsCoordinatesOf(i: Int, j: Int): Seq[Coordinates] =
     for
       di <- Seq(-1, 0, 1)
       dj <- Seq(-1, 0, 1)
@@ -30,13 +31,18 @@ extension (self: Wall)
       (x, y) => self(x, y) == WallPart.Roll
     .size < 4
     
-  def countAccessibleRols: Long =
-    (for
+  
+  def accessibleRols: Seq[Coordinates] =
+    for
       i <- self.indices
       j <- self(i).indices
       if accessible(i, j)
-    yield 1L)
-    .sum
+    yield (i, j)
+
+  def countAccessibleRols(cascade: Boolean): Int =
+    cascade match
+      case false => self.accessibleRols.size
+      case true => ???
 
 extension (self: Iterator[String])
   def toWall: Wall =

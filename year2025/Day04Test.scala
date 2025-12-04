@@ -22,4 +22,4 @@ class Day04Spec extends AnyFlatSpec with Matchers with ScalaCheckPropertyChecks:
       "@.@.@@@.@.",
     )
 
-    testInput.iterator.toWall.countAccessibleRols should equal (13L)
+    testInput.iterator.toWall.countAccessibleRols(cascade=false) should equal (13L)

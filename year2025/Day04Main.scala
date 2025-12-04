@@ -7,6 +7,6 @@ def main(inputPath: String, isPartOne: Boolean): Unit =
   val accessibleCount: Long = scala.io.Source.fromFile(inputPath)
     .getLines()
     .toWall
-    .countAccessibleRols
+    .countAccessibleRols(cascade = !isPartOne)
   println(s"tally = ${accessibleCount}")
    
