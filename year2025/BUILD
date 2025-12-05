@@ -112,3 +112,30 @@ scala_test(
         "@maven//:org_scalatestplus_scalacheck_1_18_3",
     ],
 )
+
+# DAY 05
+scala_library(
+    name = "day05scala",
+    srcs = ["Day05.scala"],
+    deps = [
+    ],
+)
+
+scala_binary(
+    name = "day05scala_main",
+    srcs = ["Day05Main.scala"],
+    main_class = "year2025.day05.main",
+    deps = [
+        ":day05scala",
+    ],
+)
+
+scala_test(
+    name = "day05scala_test",
+    srcs = ["Day05Test.scala"],
+    deps = [
+        ":day05scala",
+        "@maven//:org_scalacheck_scalacheck_3",
+        "@maven//:org_scalatestplus_scalacheck_1_18_3",
+    ],
+)
