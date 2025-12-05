@@ -22,4 +22,20 @@ class Day04Spec extends AnyFlatSpec with Matchers with ScalaCheckPropertyChecks:
       "@.@.@@@.@.",
     )
 
-    testInput.iterator.toWall.countAccessibleRols(cascade=false) should equal (13L)
+    testInput.iterator.toWall.countAccessibleRols(cascade=false) should equal (13)
+
+  it should "pass the examples in the part TWO problem descrition" in:
+    val testInput = Array(
+      "..@@.@@@@.",
+      "@@@.@.@.@@",
+      "@@@@@.@.@@",
+      "@.@@@@..@.",
+      "@@.@@@@.@@",
+      ".@@@@@@@.@",
+      ".@.@.@.@@@",
+      "@.@@@.@@@@",
+      ".@@@@@@@@.",
+      "@.@.@@@.@.",
+    )
+
+    testInput.iterator.toWall.countAccessibleRols(cascade=true) should equal (43)
