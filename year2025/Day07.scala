@@ -22,6 +22,8 @@ type SplitCount = Int
 
 type RowId = Int
 
+type Coordinate = (RowId, Ray)
+
 extension (input: Iterator[String])
   def parse: Grid =
     input.map(_.toCharArray.map(_.asCell)).toArray
@@ -45,6 +47,27 @@ extension (grid: Grid)
         val splitCnt: SplitCount = rays.filter(ray => grid(rowId)(ray) == `^`).size
         cascadeRays(nextRays, rowId + 1, tally + splitCnt)
 
+  def countTimelines: Long =
+    val memo = Array.tabulate[Long](grid.size, grid.head.length):
+      (i, j) => if i == grid.size - 1 then 1L else 0L
+
+    def dp(i: RowId): Unit =
+      if i < 0 then return ()
+      grid(i).indices.foreach:
+        j => 
+          memo(i)(j) = grid(i)(j) match
+            case `^` =>
+              grid
+                .childRays(j)
+                .foldLeft(0L):
+                  (tally, childJ) =>
+                    tally + memo(i + 1)(childJ)
+            case _ => memo(i+1)(j)
+      dp(i-1)
+
+    dp(grid.size - 2)
+    memo(0)(startPoint)
+      
 
 
 
